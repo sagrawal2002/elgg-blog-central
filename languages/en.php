@@ -21,12 +21,14 @@
 			'blog:featured:written' => "<em>written by </em>",
 			'blog:top:blogger' => "Most Followed",
 			'blog:stats:blogview' => "  Views ",
-		    'blog:latestposts' => "Latest Posts",
-		    'blog:hotbloggers' => "Hot Blogs",
-		    'blog:hotposts' => "Hot Posts",
+			'blog:latestposts' => "Latest Posts",
+			'blog:hotbloggers' => "Hot Blogs",
+			'blog:hotposts' => "Hot Posts",
 			'blog:related:title' => "Related Posts",
 			'blog:created:by' => "written by ",
-	
+			'blog:none' => "No posts have been written so far",
+			'blog:bloggers:none' => "No one is being followed yet",
+			'blog:noblogs' => "No posts have been written so far",
 			'blog:addpost' => "Write A Blog Post",
 			'blog:editpost' => "Edit blog post",
 	
