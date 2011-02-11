@@ -18,12 +18,24 @@
 					}
 						
 		$tags = elgg_view('output/tags', array('tags' => $vars['entity']->tags));
-								
-						
-						
 		$canedit = $vars['entity']->canEdit();
 		$owner = $vars['entity']->getOwnerEntity();
 		$created_by = elgg_echo('blog:created:by') . $owner->name . ", ";
+		$watch = get_plugin_setting('watch','blog');
+		if ($watch != 'no'){
+		  $watching = check_entity_relationship($_SESSION['user']->guid, 'blogwatcher',       $owner->guid);
+		if($current_user->guid == $page_owner->guid){
+		  $watch1 = "";
+		}else{
+		  if($watching != FALSE){
+		    $watch1 = "(" . elgg_echo('blog:watch:delete') . ")";
+		  }else{
+		    $watch1 = "(" . elgg_echo('blog:watch:add') . ")";
+		  }}
+		  $ts = time();
+		  $token = generate_action_token($ts);
+		  $follow_link = "<a href='{$vars['url']}action/blog/watch?owner_guid={$page_owner->guid}&__elgg_token=$token&__elgg_ts=$ts'>{$watch1}</a>";
+		  }  
 		$views = $vars['entity']->getAnnotations("blogview");
 		if ($views != FALSE){
 		$current_count = $views[0]->value;
@@ -44,7 +56,7 @@
 		if($vars['entity'] instanceof ElggObject){
 			        //get the number of comments
 		$num_comments = elgg_count_comments($vars['entity']);
-		$comments = "<a href='{$vars['entity']->getURL}'>" . sprintf(elgg_echo('comments')) . " (" . $num_comments . ")</a>";
+		$comments = "<a href='{$vars['entity']->getURL}'>" . sprintf(elgg_echo('comments')) . " (" . $num_comments . ") </a>" . $follow_link;
 		}
 		$edit = "<a href='{$vars['url']}mod/blog/edit.php?blogpost={$vars['entity']->getGUID()}'>" . elgg_echo('edit') . "</a>";
 		$delete = elgg_view("output/confirmlink", array('href' => $vars['url'] . "action/blog/delete?blogpost=" . $vars['entity']->getGUID(),'text' => elgg_echo('delete'),'confirm' => elgg_echo('deleteconfirm'),));
