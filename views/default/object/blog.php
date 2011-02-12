@@ -68,41 +68,8 @@
 	}
       }
       
-if ((!isset($vars['full'])) || ((isset($vars['full'])) && ($vars['full'] != FALSE)))
-{
-$current_count = $vars['entity']->getAnnotations("blogview");
-//      $current_count = $vars['entity']->blogviews;
-	
-      // 		echo 'get annotation value = ' . array_values($current_count);
-      //var_dump($current_count);
-      if($current_count)
-      {
-	$updateable = TRUE;
-	if(isloggedin())
-	{
-	  if(get_loggedin_user()->getGUID() == $page_owner->getGUID())
-	  {
-	      // dont count own blog views
-	      $updateable = FALSE;
-	  }
-	}
-	if($updateable == TRUE)
-	{
-
-	      $new_val = ($current_count[0]->value +1);
-//	  $firephp->log('current_count = ' . $current_count . '; context = ' . get_context());
- 	   	//	echo 'current count = ' . $current_count[0]->value . 'new val = ' . $new_val;
-	  //$vars['entity']->blogviews = $current_count + 1;
-	  update_annotation($current_count[0]->id,  "blogview", $new_val, $current_count[0]->value_type,$current_count[0]->owner_guid, $current_count[0]->access_id); 
-	 // echo $vars['entity']->getAnnotations("blogview");
-	}
-      }
-      else
-      {
-	//$vars['entity']->blogviews = 1;
-       $vars['entity']->annotate('blogview', 1, 2);
-      }  
-
+if ((!isset($vars['full'])) || ((isset($vars['full'])) && ($vars['full'] != FALSE))){
+blog_view_count($vars['entity'], $page_owner);
 }
       if (get_context() != 'blog')
       {
@@ -272,72 +239,7 @@ $current_count = $vars['entity']->getAnnotations("blogview");
 		  
 		  
 	  <?php
-	  $related = get_plugin_setting('related','blog');
-	  if ($related != 'no')
-	  { 
-	    $thisblog = $vars['entity'];
-	    $this_blogs_tags = array_unique($thisblog->tags);
-	    $blogs = elgg_get_entities(array('type' => 'object', 'subtype' => 'blog', 'owner_guid' => '','limit' => ''));
-	    $related_blogs = array();
-	    $total_related = 0;
-	    $max_related_blogs = 8; // TO DO : set this in admin settings
-	    $rows_per_line = 4;
-	    foreach($blogs as $blog)
-	    {
-		$blogtags =  array_unique($blog->tags);
-		if (count($blogtags) > 0) // if this currently examined blog has tags
-		{
-		    $hitcount = 0;
-		    foreach($blogtags as $blogtag)
-		    {
-		      if (in_arrayi($blogtag, $this_blogs_tags))
-		      {
-			$hitcount++;
-		      }
-		    }
-		  if ($hitcount > 0)
-		    {
-		      if ($thisblog->guid != $blog->guid) // check that this retrieved blog is not the displayed blog
-		      {
-		      $related_blogs[] = array('similarity' => $hitcount, 'blog' => $blog);
-		      }
-		    }
-		}
-
-	    } // end loop of examining blogs
-	    if(count($related_blogs)> 0)
-	    {
-	      $related_blogs = subval_sort($related_blogs,'similarity',arsort);
-	      $related_blogs = trim_array($related_blogs, $max_related_blogs);
-	      $grid_count = 0;
-	      echo "<div id='blog_related_articles'>";
-	      echo "<h3>" . elgg_echo('blog:related:title') . "</h3>";
-	      echo '<table cellspacing="0" cellpadding="0" border="0">';
-	      foreach ($related_blogs as $related_blog)
-	      {
-		if ($grid_count == 0)
-		{
-		  echo '<tr>';
-		}
-		$thisblog = $related_blog['blog'];
-		$owner = $thisblog->getOwnerEntity();
-		$friendlytime = elgg_view_friendly_time($thisblog->time_created);
-		echo '<td><div class="related_blogs" onclick="window.location.href=\''. $thisblog->getURL() . '\';">';
-		echo "<h4><a href='{$thisblog->getURL()}'>" . $thisblog->title . "</a></h4>";
-		echo $friendlytime . "<br>" . $owner->name;
-		echo "</div></td>";
-		$grid_count++;
-		if ($grid_count == $rows_per_line)
-		{
-		  echo '</tr>';
-		  $grid_count = 0;
-		}
-	    
-	      }
-	      echo '</table>';
-	      echo "</div>";
-	    }
-	  } // end - if related blogs view is active 
+	  related_blogs($vars['entity']);
 	}  // do not display body text if this is being displayed outside of the blog module 
       ?> 
     </div>

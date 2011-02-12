@@ -10,7 +10,7 @@
 	 */
 
 	global $CONFIG;
-
+	
 	 $filter = $vars['filter'];
 	 $filter = get_input("filter");
 	if (!$filter) {

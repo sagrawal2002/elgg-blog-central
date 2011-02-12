@@ -34,7 +34,7 @@
 				
 			// Extend hover-over menu	
 				elgg_extend_view('profile/menu/links','blog/menu');
-				
+
 			// Register a page handler, so we can have nice URLs
 				register_page_handler('blog','blog_page_handler');
 				
@@ -51,6 +51,8 @@
 			// Listen to notification events and supply a more useful message
 			register_plugin_hook('notify:entity:message', 'object', 'blog_notify_message');
 
+			// Extend blog object to include view counts
+				register_elgg_event_handler('view','blog/view_count');
 				
 			// Listen for new pingbacks
 				register_elgg_event_handler('create', 'object', 'blog_incoming_ping');
@@ -398,35 +400,9 @@ function blogextended_blog_type_handler($event, $object_type, $object){
     return true;
 }
 
-  function in_arrayi($needle, $haystack)
-{
-    for($h = 0 ; $h < count($haystack) ; $h++)
-    {
-        $haystack[$h] = strtolower($haystack[$h]);
-    }
-    return in_array(strtolower($needle),$haystack);
-}
 
-        function trim_array(array $array,$int){
-            $newArray = array();
-            for($i=0; $i<$int; $i++){
-                array_push($newArray,$array[$i]);
-            }
-            return (array)$newArray;
-        }
-
-
-function subval_sort($a,$subkey,$sort) {
-	foreach($a as $k=>$v) {
-		$b[$k] = strtolower($v[$subkey]);
-	}
-	$sort($b);
-	foreach($b as $key=>$val) {
-		$c[] = $a[$key];
-	}
-	return $c;
-}
-
+  // include the main lib file
+  include dirname(__FILE__) . '/lib/blog_lib.php';
 
 	// Make sure the blog initialisation function is called on initialisation
 		register_elgg_event_handler('init','system','blog_init');

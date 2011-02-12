@@ -68,41 +68,8 @@
 	}
       }
       
-if ((!isset($vars['full'])) || ((isset($vars['full'])) && ($vars['full'] != FALSE)))
-{
-$current_count = $vars['entity']->getAnnotations("blogview");
-//      $current_count = $vars['entity']->blogviews;
-	
-      // 		echo 'get annotation value = ' . array_values($current_count);
-      //var_dump($current_count);
-      if($current_count)
-      {
-	$updateable = TRUE;
-	if(isloggedin())
-	{
-	  if(get_loggedin_user()->getGUID() == $page_owner->getGUID())
-	  {
-	      // dont count own blog views
-	      $updateable = FALSE;
-	  }
-	}
-	if($updateable == TRUE)
-	{
-
-	      $new_val = ($current_count[0]->value +1);
-//	  $firephp->log('current_count = ' . $current_count . '; context = ' . get_context());
- 	   	//	echo 'current count = ' . $current_count[0]->value . 'new val = ' . $new_val;
-	  //$vars['entity']->blogviews = $current_count + 1;
-	  update_annotation($current_count[0]->id,  "blogview", $new_val, $current_count[0]->value_type,$current_count[0]->owner_guid, $current_count[0]->access_id); 
-	 // echo $vars['entity']->getAnnotations("blogview");
-	}
-      }
-      else
-      {
-	//$vars['entity']->blogviews = 1;
-       $vars['entity']->annotate('blogview', 1, 2);
-      }  
-
+if ((!isset($vars['full'])) || ((isset($vars['full'])) && ($vars['full'] != FALSE))){
+blog_view_count($vars['entity'], $page_owner);
 }
       if (get_context() != 'blog')
       {
