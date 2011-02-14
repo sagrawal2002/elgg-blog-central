@@ -8,10 +8,6 @@
 
 ?>
 
-.input-access {
-width: 100%;
-}
-
 #blogs .pagination {
 	margin:5px 10px 0 10px;
 	padding:5px;
@@ -220,7 +216,7 @@ width: 100%;
 }
 
 .blog_access .input-access {
-	width: 130px;
+	width: 100%;
 }
 .featured_blog_spot {
 	float:right;
@@ -633,10 +629,6 @@ margin-bottom: 8px;
 
 .dashbox_title_space img {
 padding-right: 3px;
-}
-
-#blog_menu_list {
-
 }
 
 .blog_index_listing {

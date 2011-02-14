@@ -239,6 +239,7 @@ blog_view_count($vars['entity'], $page_owner);
 		  
 		  
 	  <?php
+	  if (isset($vars['entity']->tags))
 	  related_blogs($vars['entity']);
 	}  // do not display body text if this is being displayed outside of the blog module 
       ?> 

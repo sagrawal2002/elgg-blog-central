@@ -50,9 +50,6 @@
 
 			// Listen to notification events and supply a more useful message
 			register_plugin_hook('notify:entity:message', 'object', 'blog_notify_message');
-
-			// Extend blog object to include view counts
-				register_elgg_event_handler('view','blog/view_count');
 				
 			// Listen for new pingbacks
 				register_elgg_event_handler('create', 'object', 'blog_incoming_ping');

@@ -239,72 +239,8 @@ blog_view_count($vars['entity'], $page_owner);
 		  
 		  
 	  <?php
-	  $related = get_plugin_setting('related','blog');
-	  if ($related != 'no')
-	  { 
-	    $thisblog = $vars['entity'];
-	    $this_blogs_tags = array_unique($thisblog->tags);
-	    $blogs = elgg_get_entities(array('type' => 'object', 'subtype' => 'blog', 'owner_guid' => '','limit' => ''));
-	    $related_blogs = array();
-	    $total_related = 0;
-	    $max_related_blogs = 8; // TO DO : set this in admin settings
-	    $rows_per_line = 4;
-	    foreach($blogs as $blog)
-	    {
-		$blogtags =  array_unique($blog->tags);
-		if (count($blogtags) > 0) // if this currently examined blog has tags
-		{
-		    $hitcount = 0;
-		    foreach($blogtags as $blogtag)
-		    {
-		      if (in_arrayi($blogtag, $this_blogs_tags))
-		      {
-			$hitcount++;
-		      }
-		    }
-		  if ($hitcount > 0)
-		    {
-		      if ($thisblog->guid != $blog->guid) // check that this retrieved blog is not the displayed blog
-		      {
-		      $related_blogs[] = array('similarity' => $hitcount, 'blog' => $blog);
-		      }
-		    }
-		}
-
-	    } // end loop of examining blogs
-	    if(count($related_blogs)> 0)
-	    {
-	      $related_blogs = subval_sort($related_blogs,'similarity',arsort);
-	      $related_blogs = trim_array($related_blogs, $max_related_blogs);
-	      $grid_count = 0;
-	      echo "<div id='blog_related_articles'>";
-	      echo "<h3>" . elgg_echo('blog:related:title') . "</h3>";
-	      echo '<table cellspacing="0" cellpadding="0" border="0">';
-	      foreach ($related_blogs as $related_blog)
-	      {
-		if ($grid_count == 0)
-		{
-		  echo '<tr>';
-		}
-		$thisblog = $related_blog['blog'];
-		$owner = $thisblog->getOwnerEntity();
-		$friendlytime = elgg_view_friendly_time($thisblog->time_created);
-		echo '<td><div class="related_blogs" onclick="window.location.href=\''. $thisblog->getURL() . '\';">';
-		echo "<h4><a href='{$thisblog->getURL()}'>" . $thisblog->title . "</a></h4>";
-		echo $friendlytime . "<br>" . $owner->name;
-		echo "</div></td>";
-		$grid_count++;
-		if ($grid_count == $rows_per_line)
-		{
-		  echo '</tr>';
-		  $grid_count = 0;
-		}
-	    
-	      }
-	      echo '</table>';
-	      echo "</div>";
-	    }
-	  } // end - if related blogs view is active 
+	 // if (isset($vars['entity']->tags))
+	  related_blogs($vars['entity']);
 	}  // do not display body text if this is being displayed outside of the blog module 
       ?> 
     </div>
