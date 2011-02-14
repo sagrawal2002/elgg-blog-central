@@ -98,6 +98,7 @@
 			echo elgg_view('profile/icon',array('entity' => $object, 'size' => 'small', 'override' => 'false'));
 			echo "<h3>" . $object->name . "</h3>";
 			$blogs = elgg_get_entities(array('type' => 'object', 'subtype' => 'blog', 'owner_guid' => $object->guid,'limit' => '1'));
+			if ((isset($blogs))&&(is_array($blogs))){
 			foreach($blogs as $blog){
 			$description = elgg_get_excerpt($blog->description, 500);
 						// add a "read more" link if cropped.
@@ -108,7 +109,7 @@
 			echo '<p>' . $description . '</p>';
 			}
 			echo '</div>';
-			}}
+			}}}
 			break;
 			
 			case "hotposts":
@@ -139,6 +140,7 @@
 			echo elgg_view('profile/icon',array('entity' => $watcher, 'size' => 'small', 'override' => 'false'));
 			echo "<h3>" . $watcher->name . "</h3>";
 			$blogs = elgg_get_entities(array('type' => 'object', 'subtype' => 'blog', 'owner_guid' => $watcher->guid,'limit' => '1'));
+			if ((isset($blogs))&&(is_array($blogs))){
 			foreach($blogs as $blog){
 			$description = elgg_get_excerpt($blog->description, 500);
 						// add a "read more" link if cropped.
@@ -149,7 +151,7 @@
 			echo $description;
 			}
 			echo '</div>';
-			}}
+			}}}
 			break;	
 		}
 ?>
