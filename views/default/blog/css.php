@@ -350,8 +350,6 @@
 	float:left;
 	text-align: right;
 	background: #FFFFFF;
-	-moz-box-shadow: 0px 2px 10px #000000;
-	-webkit-box-shadow: 0px 2px 10px #000000;
 	padding: 3px;
 	min-width: 630px;
 	min-height: 100px;
