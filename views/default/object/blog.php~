@@ -58,12 +58,6 @@
 	  if (($watch != 'no') && ($owner != $user))
       {
 	$watching = check_entity_relationship($current_user->guid, 'blogwatcher', $owner->guid);
-// 	if($current_user->guid == $page_owner->guid)
-// 	{
-// 	  $watch1 = "";
-// 	}
-// 	else
-// 	{
 	  
 	  if($watching != FALSE)
 	  {
@@ -119,10 +113,7 @@ blog_view_count($vars['entity'], $page_owner);
 	  if ($container instanceof ElggGroup){
 	  echo '</p><p class="strapline">' . elgg_echo('blog:ingroup') . ' <a href="' . $container->getURL() . '">' . $container->name . '</a>';
 	  }	
-	 
-
-
-
+	
 	?>
 	</p><p class="strapline">
 	<?php

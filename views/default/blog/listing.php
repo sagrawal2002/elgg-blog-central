@@ -31,7 +31,7 @@
 		$watch = get_plugin_setting('watch','blog');
 	  $user_id = get_loggedin_userid();
 	 $user = get_entity($user_id);
-	  if (($watch != 'no') && ($owner != $user)){
+	  if (($watch != 'no') && ($owner != $user) && (isloggedin())){
 		  $watching = check_entity_relationship($_SESSION['user']->guid, 'blogwatcher', $owner->guid);
 
 		  if($watching != FALSE){

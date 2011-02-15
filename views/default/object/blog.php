@@ -103,7 +103,7 @@ blog_view_count($vars['entity'], $page_owner);
 	  $watch = get_plugin_setting('watch','blog');
 	  $user_id = get_loggedin_userid();
 	 $user = get_entity($user_id);
-	  if (($watch != 'no') && ($owner != $user))
+	  if (($watch != 'no') && ($owner != $user) && (isloggedin()))
 	  {
 	    $ts = time();
 	    $token = generate_action_token($ts);	

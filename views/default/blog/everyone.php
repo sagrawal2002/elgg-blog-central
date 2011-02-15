@@ -62,7 +62,7 @@
 	<?php
 		}
 		$watch = get_plugin_setting('watch','blog');
-		if ($watch != 'no'){ ?>
+		if (($watch != 'no') && (isloggedin())){ ?>
 	<li <?php if($filter == "watching") echo "class='selected'"; ?>><a onclick="javascript:$('#blog_menu_box').load('<?php echo $vars['url']; ?>pg/blog/all?filter=watching&amp;callback=true'); return false;" href="?filter=watching"><?php echo elgg_echo('blog:watching') . " (" . $following . ")";  ?></a></li>
 	<?php }} ?>
 </ul>
