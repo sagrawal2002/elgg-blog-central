@@ -73,14 +73,17 @@
 			global $CONFIG;
 
 			//add submenu options
-				if (get_context() == "blog") {
+				if (get_context() == "blog" || get_context() == "search") {
 					$page_owner = page_owner_entity();
+
 					add_submenu_item(elgg_echo('blog:everyone'),$CONFIG->wwwroot."pg/blog/all/");
 					if ((page_owner() == $_SESSION['guid'] || !page_owner()) && isloggedin()) {
 						add_submenu_item(elgg_echo('blog:your'),$CONFIG->wwwroot."pg/blog/owner/" . $_SESSION['user']->username);
 						add_submenu_item(elgg_echo('blog:friends'),$CONFIG->wwwroot."pg/blog/friends/" . $_SESSION['user']->username);
-					} else if (page_owner()) {
+					} else if ($page_owner) {
+						if (get_context() == "blog"){
 						add_submenu_item(sprintf(elgg_echo('blog:user'),$page_owner->name),$CONFIG->wwwroot."pg/blog/owner/" . $page_owner->username);
+						}
 						if ($page_owner instanceof ElggUser) { // Sorry groups, this isn't for you.
 							add_submenu_item(sprintf(elgg_echo('blog:user:friends'),$page_owner->name),$CONFIG->wwwroot."pg/blog/friends/" . $page_owner->username);
 						}
@@ -149,7 +152,8 @@
 					include(dirname(__FILE__) . "/archive.php");
 					break;
 				case "owner":
-					set_input('username', $page[1]);
+					set_input('username', $page[1]);	
+					set_context('search');
 					include(dirname(__FILE__) . "/index.php");
 					break;
 				case "friends":

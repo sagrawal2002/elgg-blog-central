@@ -6,40 +6,46 @@
 	 * @package ElggBlog
 	 */
 	 $feature = get_plugin_setting('feature','blog');
-	if ($feature != 'no'){
-	 	if(isadminloggedin()){
-						if($vars['entity']->featured_blog == "yes"){
-							$featured_url = elgg_add_action_tokens_to_url($vars['url'] . "action/blog/featured?blogguid=" . $vars['entity']->guid . "&action_type=unfeature");
-							$wording = elgg_echo("blog:unfeature");
-						}else{
-							$featured_url = elgg_add_action_tokens_to_url($vars['url'] . "action/blog/featured?blogguid=" . $vars['entity']->guid . "&action_type=feature");
-							$wording = elgg_echo("blog:feature");
-						}}
-					}
+	if ($feature != 'no')
+		{
+	 	if(isadminloggedin())
+		{
+			if($vars['entity']->featured_blog == "yes"){
+				$featured_url = elgg_add_action_tokens_to_url($vars['url'] . "action/blog/featured?blogguid=" . $vars['entity']->guid . "&action_type=unfeature");
+				$wording = elgg_echo("blog:unfeature");
+			}else{
+				$featured_url = elgg_add_action_tokens_to_url($vars['url'] . "action/blog/featured?blogguid=" . $vars['entity']->guid . "&action_type=feature");
+				$wording = elgg_echo("blog:feature");
+			}
+		  }
+		}
 						
 		$tags = elgg_view('output/tags', array('tags' => $vars['entity']->tags));
 		$canedit = $vars['entity']->canEdit();
 		$owner = $vars['entity']->getOwnerEntity();
-		$created_by = elgg_echo('blog:created:by') . $owner->name . ", ";
+		$created_by = '<p class="strapline">' . elgg_echo('blog:created:by') . '<a href="' . $vars['url'] . 'pg/blog/owner/' . $owner->username . '">' . $owner->name . '</a></p>';
+		$container = get_entity($vars['entity']->container_guid);
+		if ($container instanceof ElggGroup){
+		$created_by .= '<p class="strapline">' . elgg_echo('blog:ingroup') . ' <a href="' . $container->getURL() . '">' . $container->name . '</a></p>';
+		}	
 		$watch = get_plugin_setting('watch','blog');
-		if ($watch != 'no'){
-		  $watching = check_entity_relationship($_SESSION['user']->guid, 'blogwatcher',       $owner->guid);
-		if($current_user->guid == $page_owner->guid){
-		  $watch1 = "";
-		}else{
+	  $user_id = get_loggedin_userid();
+	 $user = get_entity($user_id);
+	  if (($watch != 'no') && ($owner != $user)){
+		  $watching = check_entity_relationship($_SESSION['user']->guid, 'blogwatcher', $owner->guid);
+
 		  if($watching != FALSE){
 		    $watch1 = "(" . elgg_echo('blog:watch:delete') . ")";
 		  }else{
 		    $watch1 = "(" . elgg_echo('blog:watch:add') . ")";
-		  }}
+		  }
 		  $ts = time();
 		  $token = generate_action_token($ts);
-		  $follow_link = "<a href='{$vars['url']}action/blog/watch?owner_guid={$page_owner->guid}&__elgg_token=$token&__elgg_ts=$ts'>{$watch1}</a>";
+		  $follow_link = "<a href='{$vars['url']}action/blog/watch?owner_guid={$owner->guid}&__elgg_token=$token&__elgg_ts=$ts'>{$watch1}</a>";
 		  }  
 		$views = $vars['entity']->getAnnotations("blogview");
 		if ($views != FALSE){
 		$current_count = $views[0]->value;
-		
 		}
 		else
 		{
@@ -49,14 +55,14 @@
 		$icon = elgg_view(
 				"profile/icon", array(
 										'entity' => $owner,
-										'size' => 'small',
+										'size' => 'small'
 									  )
 			);
 		
 		if($vars['entity'] instanceof ElggObject){
 			        //get the number of comments
 		$num_comments = elgg_count_comments($vars['entity']);
-		$comments = "<a href='{$vars['entity']->getURL}'>" . sprintf(elgg_echo('comments')) . " (" . $num_comments . ") </a>" . $follow_link;
+		$comments = "<a href='{$vars['entity']->getURL()}'>" . sprintf(elgg_echo('comments')) . " (" . $num_comments . ") </a>" . $follow_link;
 		}
 		$edit = "<a href='{$vars['url']}mod/blog/edit.php?blogpost={$vars['entity']->getGUID()}'>" . elgg_echo('edit') . "</a>";
 		$delete = elgg_view("output/confirmlink", array('href' => $vars['url'] . "action/blog/delete?blogpost=" . $vars['entity']->getGUID(),'text' => elgg_echo('delete'),'confirm' => elgg_echo('deleteconfirm'),));
@@ -75,8 +81,7 @@
 
 		  $info = "<div class='blog_index_listing'>";
 		  $info .= "<h3><a href='{$vars['entity']->getURL()}'>{$vars['entity']->title}</a></h3>";
-    	  $info .= "<div class='listing_content_left'>";
-    	  $info .= "<span style='float:left;margin-right:4px;'>" . $icon . "</span>" . $created_by . $friendlytime . " | " . $comments . " | " . elgg_echo('blog:stats:blogview') . "(" . $current_count . ")";    	      	  
+    	  $info .= "<div class='listing_content_left'><span style='float:left;margin-right:4px;'>" . $icon . "</span><p class=\"strapline\">" . $created_by . "</p><p class=\"strapline\">" .  $friendlytime . " | " . elgg_echo('blog:stats:blogview') . "(" . $current_count . ")" . " | " . $comments  . "</p>";    	      	  
     	  if ($tags){
 	  $info .= '<p class="tags">' . $tags . '</p>';
 	  }
@@ -99,8 +104,7 @@
 		  
 		  $info = "<div class='blog_index_listing'>";
 		  $info .= "<h3><a href='{$vars['entity']->getURL()}'>{$vars['entity']->title}</a></h3>";
-    	  $info .= "<div class='listing_content_left'>";
-    	  $info .= "<span style='float:left;margin-right:4px;'>" . $icon . "</span>" . $created_by . $friendlytime . " | " . $comments . " | " . elgg_echo('blog:stats:blogview') . "(" . $current_count . ")";    	      	  
+    	  $info .= "<div class='listing_content_left'><span style='float:left;margin-right:4px;'>" . $icon . "</span><p class=\"strapline\">" . $created_by . "</p><p class=\"strapline\">" .  $friendlytime . " | " . elgg_echo('blog:stats:blogview') . "(" . $current_count . ")" . " | " . $comments  . "</p>";    	      	  
 	  if ($tags){
 	    $info .= '<p class="tags">' . $tags . '</p>';}
     	  if($vars['entity']->featured_blog == "yes"){
@@ -110,7 +114,7 @@
     	  $info .= "<div class='listing_content_right'>";
   		  $info .= elgg_view('output/longtext', array('value' => $description));
  		  $info .= "</div>";
- 		  $info .= "<div class='listing_content' id='listing_content_".$vars['entity']->guid."'>";
+ 		  $info .= "<div class='listing_content' id='listing_content'>";
  		  if($canedit){
 	 	  $info .= "(" . $edit . ")" . "  " . "(" . $delete . ")" . "  ";
 		  }

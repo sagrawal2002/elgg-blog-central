@@ -15,7 +15,7 @@
 
 	// Get the current page's owner
 		$page_owner = page_owner_entity();
- 		if (($page_owner === FALSE) || (is_null($page_owner))) {
+ 		if (($page_owner == FALSE) || (is_null($page_owner))) {
 			if (empty($callback)) {	
 			// guess that logged in user is the owner - if no logged in send to all blogs page
 			if (!isloggedin()) {
@@ -30,7 +30,14 @@
 		if ($page_owner == $_SESSION['user']) {
 			$area2 = elgg_view_title(elgg_echo('blog:your'));
 		} else {
+			if ($page_owner instanceof ElggGroup)
+			{
+			$area2 = elgg_view_title(sprintf(elgg_echo('blog:group'),$page_owner->name));
+			}
+			else
+			{
 			$area2 = elgg_view_title(sprintf(elgg_echo('blog:user'),$page_owner->name));
+			}
 		}
 
 		$offset = (int)get_input('offset', 0);

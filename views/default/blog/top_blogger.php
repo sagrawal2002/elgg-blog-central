@@ -11,8 +11,8 @@ if ($top_bloggers){
 			foreach ($top_bloggers as $top_blogger){
 			$blogger_count++;
 			echo '<tr>';
-			echo '<td id="top_blogger_side_icon"><a href="' . $vars['url'] . 'pg/blog/' . $top_blogger->name . '/">' . elgg_view("profile/icon", array('entity' => $top_blogger,'size' => 'tiny')) . ' </a></td>';
-			echo '<td id="top_blogger_side_name"><a href="' . $vars['url'] . 'pg/blog/' . $top_blogger->name . '/">' . $blogger_count . '. ' . $top_blogger->name . '</a></td>';
+			echo '<td id="top_blogger_side_icon"><a href="' . $vars['url'] . 'pg/blog/owner/' . $top_blogger->username . '/">' . elgg_view("profile/icon", array('entity' => $top_blogger,'size' => 'tiny')) . ' </a></td>';
+			echo '<td id="top_blogger_side_name"><a href="' . $vars['url'] . 'pg/blog/owner/' . $top_blogger->username . '/">' . $blogger_count . '. ' . $top_blogger->name . '</a></td>';
 			echo '</tr>';
 			}
 			

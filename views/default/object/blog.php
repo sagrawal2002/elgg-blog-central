@@ -6,8 +6,13 @@
 	 * @package ElggBlog
 	 * @uses $vars['entity'] Optionally, the blog post to view
 	 */
+
+
   if (isset($vars['entity'])) 
   {
+    $page_owner = page_owner_entity();
+
+  
     //display comments link?
     if ($vars['entity']->comments_on == 'Off') 
     {
@@ -44,19 +49,16 @@
 	$owner = $vars['user'];
 	$canedit = FALSE;
       }
-	  
-      $page_owner = page_owner_entity();
+	
+      
       $current_user = $_SESSION['user'];
       $watch = get_plugin_setting('watch','blog');
-      if ($watch != 'no')
+        $user_id = get_loggedin_userid();
+	 $user = get_entity($user_id);
+	  if (($watch != 'no') && ($owner != $user))
       {
-	$watching = check_entity_relationship($current_user->guid, 'blogwatcher', $page_owner->guid);
-	if($current_user->guid == $page_owner->guid)
-	{
-	  $watch1 = "";
-	}
-	else
-	{
+	$watching = check_entity_relationship($current_user->guid, 'blogwatcher', $owner->guid);
+	  
 	  if($watching != FALSE)
 	  {
 	    $watch1 = "(" . elgg_echo('blog:watch:delete') . ")";
@@ -65,7 +67,7 @@
 	  {
 	    $watch1 = "(" . elgg_echo('blog:watch:add') . ")";
 	  }
-	}
+// 	}
       }
       
 if ((!isset($vars['full'])) || ((isset($vars['full'])) && ($vars['full'] != FALSE))){
@@ -96,19 +98,26 @@ blog_view_count($vars['entity'], $page_owner);
       <p class="strapline">
 	<?php
 	  echo sprintf(elgg_echo("blog:strapline"),date("F j, Y", $vars['entity']->time_created));
-	  echo ' '. elgg_echo('by'); 
-	?> 
-	<a href="<?php echo $vars['url']; ?>pg/blog/owner/<?php echo $owner->username; ?>"><?php echo $owner->name; ?></a> &nbsp; 
-	<!-- display the comments link -->
-	<?php
-	  if($comments_on && $vars['entity'] instanceof ElggObject)
+	  echo ', ' . elgg_echo('blog:created:by') . '<a href="' . $vars['url'] . 'pg/blog/owner/' . $owner->username . '">' . $owner->name . '</a>';
+	  //Blog Watching
+	  $watch = get_plugin_setting('watch','blog');
+	  $user_id = get_loggedin_userid();
+	 $user = get_entity($user_id);
+	  if (($watch != 'no') && ($owner != $user))
 	  {
-	    //get the number of comments
-	    $num_comments = elgg_count_comments($vars['entity']);
-	?>
-	<a href="<?php echo $url; ?>"><?php echo sprintf(elgg_echo("comments")) . " (" . $num_comments . ")"; ?></a>
-	<?php
+	    $ts = time();
+	    $token = generate_action_token($ts);	
+	    echo " <a href='{$vars['url']}action/blog/watch?owner_guid={$owner->guid}&__elgg_token=$token&__elgg_ts=$ts'>{$watch1}</a>";
 	  }
+	  $container = get_entity($vars['entity']->container_guid);
+	  if ($container instanceof ElggGroup){
+	  echo '</p><p class="strapline">' . elgg_echo('blog:ingroup') . ' <a href="' . $container->getURL() . '">' . $container->name . '</a>';
+	  }	
+	
+	?>
+	</p><p class="strapline">
+	<?php
+	  
 	  $current_count = $vars['entity']->getAnnotations("blogview");
 	  //$current_count = $vars['entity']->blogviews;
 	  if((!$current_count)||(is_null($current_count)))
@@ -119,17 +128,17 @@ blog_view_count($vars['entity'], $page_owner);
 	  {
 	    $current_count = $current_count[0]->value;
 	  }
-	  echo "  " . elgg_echo('blog:stats:blogview') . "(" . $current_count . ")  ";
-				  
-	  //Blog Watching
-	  $watch = get_plugin_setting('watch','blog');
-	  if ($watch != 'no')
+	  echo "  " . elgg_echo('blog:stats:blogview') . "(" . $current_count . ") ";
+	// display the comments link 
+
+	  if($comments_on && $vars['entity'] instanceof ElggObject)
 	  {
-	    $ts = time();
-	    $token = generate_action_token($ts);	
-	    echo "<a href='{$vars['url']}action/blog/watch?owner_guid={$page_owner->guid}&__elgg_token=$token&__elgg_ts=$ts'>{$watch1}</a>";
-	  }
-					  
+	    //get the number of comments
+	    $num_comments = elgg_count_comments($vars['entity']);
+	?>
+	<a href="#comment"><?php echo sprintf(elgg_echo("comments")) . " (" . $num_comments . ")"; ?></a>
+<?php		
+							}
 	  //If Featuring is turned on
 	  $feature = get_plugin_setting('feature','blog');
 	  if ($feature != 'no')
@@ -239,9 +248,12 @@ blog_view_count($vars['entity'], $page_owner);
 		  
 		  
 	  <?php
-	  if (isset($vars['entity']->tags))
-	  related_blogs($vars['entity']);
+	  if ((!isset($vars['full'])) || ((isset($vars['full'])) && ($vars['full'] != FALSE))){
+	    if (isset($vars['entity']->tags))
+	      related_blogs($vars['entity']);
+	  }
 	}  // do not display body text if this is being displayed outside of the blog module 
+
       ?> 
     </div>
   </div>

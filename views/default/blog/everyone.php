@@ -91,25 +91,12 @@
 			case "hotbloggers":
 			$objects = get_entities_by_relationship_count('blogwatcher',$inverse_relationship = true,$type = "user",$subtype = "",$owner_guid = 0,$limit = 10,$offset = 0);
 			if (!$objects){
-			echo '<div class="blog_index_listing">' . elgg_echo('blog:bloggers:none') . '</div>';
+			echo elgg_echo('blog:bloggers:none') . '</div>';
 			}else{
 			foreach($objects as $object){
-			echo '<div class="blog_index_listing">';
-			echo elgg_view('profile/icon',array('entity' => $object, 'size' => 'small', 'override' => 'false'));
-			echo "<h3>" . $object->name . "</h3>";
-			$blogs = elgg_get_entities(array('type' => 'object', 'subtype' => 'blog', 'owner_guid' => $object->guid,'limit' => '1'));
-			if ((isset($blogs))&&(is_array($blogs))){
-			foreach($blogs as $blog){
-			$description = elgg_get_excerpt($blog->description, 500);
-						// add a "read more" link if cropped.
-						if (elgg_substr($description, -3, 3) == '...') {
-							$description .= " <a href=\"{$blog->getURL()}\">" . elgg_echo('blog:read_more') . '</a>';
-						}	
-			echo elgg_echo('blog:watcher:latest:title') . "<a href='{$blog->getURL()}'>" . $blog->title . "</a><br>";
-			echo '<p>' . $description . '</p>';
+			  echo elgg_view('blog/blogger_listing', array('entity' => $object));
+			  }
 			}
-			echo '</div>';
-			}}}
 			break;
 			
 			case "hotposts":
@@ -133,25 +120,12 @@
 			case "watching":
 			$watchers = get_entities_from_relationship('blogwatcher',$_SESSION['user']->guid,$inverse_relationship = false);
 			if (!$watchers){
-			echo '<div class="blog_index_listing">' . elgg_echo('blog:watching:none') . '</div>';
+			echo elgg_echo('blog:watching:none') . '</div>';
 			}else{
 			foreach($watchers as $watcher){
-			echo '<div class="blog_index_listing">';
-			echo elgg_view('profile/icon',array('entity' => $watcher, 'size' => 'small', 'override' => 'false'));
-			echo "<h3>" . $watcher->name . "</h3>";
-			$blogs = elgg_get_entities(array('type' => 'object', 'subtype' => 'blog', 'owner_guid' => $watcher->guid,'limit' => '1'));
-			if ((isset($blogs))&&(is_array($blogs))){
-			foreach($blogs as $blog){
-			$description = elgg_get_excerpt($blog->description, 500);
-						// add a "read more" link if cropped.
-						if (elgg_substr($description, -3, 3) == '...') {
-							$description .= " <a href=\"{$blog->getURL()}\">" . elgg_echo('blog:read_more') . '</a>';
-						}	
-			echo elgg_echo('blog:watcher:latest:title') . "<a href='{$blog->getURL()}'>" . $blog->title . "</a><br>";
-			echo $description;
+			echo elgg_view('blog/blogger_listing', array('entity' => $watcher));
 			}
-			echo '</div>';
-			}}}
+			}
 			break;	
 		}
 ?>

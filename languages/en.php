@@ -31,6 +31,7 @@
 			'blog:noblogs' => "No posts have been written so far",
 			'blog:addpost' => "Write A Blog Post",
 			'blog:editpost' => "Edit blog post",
+			'blog:ingroup' => "in group:",
 	
 			'blog:text' => "Blog text",
 	
@@ -122,8 +123,8 @@
 		    'blog:watch:top_blogger:none' => "No one is being followed at the moment",
 		    'blog:watch:followers' => "Followers: ",
 		    'blog:watcher:latest:title' => "Latest Blog:",
-		    'blog:watch:delete:success' => "You've stopped following this blogger",
-   		    'blog:watch:add:success' => "You've started following this blogger",
+		    'blog:watch:delete:success' => "You've stopped following",
+   		    'blog:watch:add:success' => "You've started following",
    		    'blog:watching:none' => "You aren't following any bloggers at the moment",
    		    'blog:top_blogger:post_count' => "Posts: ",
    		    'blog:top_blogger:followers' => "Followers: ",

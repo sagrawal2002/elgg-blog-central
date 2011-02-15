@@ -48,10 +48,10 @@
 	margin: 0 0 5px 0;
 }
 
-.blog_post .strapline {
-	margin: 0 0 0 35px;
+.blog_post .strapline,
+.blog_index_listing .strapline{
+	margin: 0 0 3px 35px;
 	padding:0;
-	color: #5E5D5D;
 	line-height:1em;
 }
 .blog_post p.tags {
@@ -215,7 +215,8 @@
 	font-size: 100%;
 }
 
-.blog_access .input-access {
+.blog_access .input-access,
+.input-access {
 	width: 100%;
 }
 .featured_blog_spot {
@@ -519,6 +520,10 @@ padding: 10px 10px;
 }
 
 .blog_index_listing h3 {
-padding-top: 7px;
 padding-bottom: 7px;
+}
+
+.listing_icon {
+float: left;
+ margin-right:5px;"
 }
