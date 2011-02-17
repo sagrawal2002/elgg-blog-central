@@ -515,7 +515,8 @@ margin-bottom: 8px;
 padding-right: 3px;
 }
 
-.blog_index_listing {
+.blog_index_listing,
+.singleview  {
 padding: 10px 10px;
 border-bottom: 1px solid #E8E8E8;
 }

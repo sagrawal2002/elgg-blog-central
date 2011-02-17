@@ -12,7 +12,7 @@
 	// access check for closed groups
 	group_gatekeeper();
 		$callback = get_input('callback');
-
+		$offset = get_input('offset');
 	// Get the current page's owner
 		$page_owner = page_owner_entity();
  		if (($page_owner == FALSE) || (is_null($page_owner))) {
@@ -42,13 +42,6 @@
 
 		$offset = (int)get_input('offset', 0);
 		
-	// Get a list of blog posts
-// $feature = get_plugin_setting('featuredmine','blog');
-// if ($feature != 'no'){ 
-// 		$area2 .= elgg_view('blog/top');
-// }
-
-		if (empty($callback)) {	
 		$context = get_context();
 		
 		if ($page_owner instanceof ElggGroup)
@@ -60,11 +53,14 @@
 		    $search_param = 'owner_guid';
 		}		
 		
-		set_context('search');
+		set_context('blogsearch');
 		$blog_objects .= elgg_list_entities(array('type' => 'object', 'subtype' => 'blog', $search_param => page_owner(), 'limit' => 10, 'offset' => $offset, 'full_view' => FALSE, 'view_type_toggle' => FALSE));
 		set_context($context);
+		if (empty($callback)) {	
 		if ($blog_objects) {
+		$area2 .= '<div id="blog_listing_box">';
 		$area2 .= $blog_objects;
+		$area2 .= '</div>';
 		}
 		else
 		{			
@@ -95,12 +91,10 @@
 }
 else
 {
-	//$title = sprintf(elgg_echo("groups:all"),page_owner_entity()->name);
-	//$content = elgg_view_title($title);
-	$content .= elgg_view('blog/everyone');
+	if ($blog_objects) {
 	// ajax callback
 	header("Content-type: text/html; charset=UTF-8");
-	echo $content;
-
+	echo $blog_objects;
+}
 }		
 ?>

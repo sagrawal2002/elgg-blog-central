@@ -73,7 +73,8 @@
 			global $CONFIG;
 
 			//add submenu options
-				if (get_context() == "blog" || get_context() == "search") {
+				$context = get_context();
+				if ($context == "blog" || $context == "search" || $context== "blogcentral") {
 					$page_owner = page_owner_entity();
 
 					add_submenu_item(elgg_echo('blog:everyone'),$CONFIG->wwwroot."pg/blog/all/");
@@ -161,6 +162,7 @@
 					include(dirname(__FILE__) . "/friends.php");
 					break;
 				case "all":
+					set_context('blogcentral');
 					include(dirname(__FILE__) . "/everyone.php");
 					break;
 				case "new":

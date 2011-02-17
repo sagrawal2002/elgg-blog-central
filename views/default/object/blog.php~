@@ -22,7 +22,8 @@
     {
       $comments_on = TRUE;
     }
-    if ((get_context() == "search") && ($vars['entity'] instanceof ElggObject)) 
+    $context = get_context();
+    if ((($context == "blogsearch") || ($context == "search"))&& ($vars['entity'] instanceof ElggObject)) 
     {
       //display the correct layout depending on gallery or list view
       if (get_input('search_viewtype') == "gallery")
@@ -73,7 +74,7 @@
 if ((!isset($vars['full'])) || ((isset($vars['full'])) && ($vars['full'] != FALSE))){
 blog_view_count($vars['entity'], $page_owner);
 }
-      if (get_context() != 'blog')
+      if (get_context() == 'widget')
       {
 	echo '<div class="search_listing">';
       }
@@ -136,7 +137,7 @@ blog_view_count($vars['entity'], $page_owner);
 	    //get the number of comments
 	    $num_comments = elgg_count_comments($vars['entity']);
 	    if ($num_comments > 0)
-// 	    echo '<a href="#top_comment">' . sprintf(elgg_echo("comments")) . ' (' . $num_comments . ')</a>';
+	    echo '<a href="#top_comment">' . sprintf(elgg_echo("comments")) . ' (' . $num_comments . ')</a>';
 		
 	  }
 	  //If Featuring is turned on
@@ -258,7 +259,7 @@ blog_view_count($vars['entity'], $page_owner);
     </div>
   </div>
   <?php
-    if (get_context() != 'blog')
+    if (get_context() == 'widget')
     {
       echo '</div>';
     }	

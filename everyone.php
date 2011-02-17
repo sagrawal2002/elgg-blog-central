@@ -47,8 +47,6 @@
 }
 else
 {
-	//$title = sprintf(elgg_echo("groups:all"),page_owner_entity()->name);
-	//$content = elgg_view_title($title);
 	$content .= elgg_view('blog/everyone');
 	// ajax callback
 	header("Content-type: text/html; charset=UTF-8");

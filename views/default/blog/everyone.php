@@ -13,6 +13,7 @@
 	
 	 $filter = $vars['filter'];
 	 $filter = get_input("filter");
+	 $offset = get_input("offset");
 	if (!$filter) {
 		// active discussions is the default
 		$filter = "latestposts";
@@ -40,16 +41,16 @@
 <?php 
 	$watch = get_plugin_setting('watch','blog');
 	if ($watch != 'no'){ ?>
-	<li <?php if($filter == "hotbloggers") echo "class='selected'"; ?>><a onclick="javascript:$('#blog_menu_box').load('<?php echo $vars['url']; ?>pg/blog/all??filter=hotbloggers&amp;callback=true'); return false;" href="?filter=hotbloggers"><?php echo elgg_echo('blog:hotbloggers'); ?></a></li>
+	<li <?php if($filter == "hotbloggers") echo "class='selected'"; ?>><a onclick="javascript:$('#blog_menu_box').load('<?php echo $vars['url']; ?>pg/blog/all?filter=hotbloggers&amp;callback=true'); return false;" href="?filter=hotbloggers"><?php echo elgg_echo('blog:hotbloggers'); ?></a></li>
 <?php } ?>
-	<li <?php if($filter == "hotposts") echo "class='selected'"; ?>><a onclick="javascript:$('#blog_menu_box').load('<?php echo $vars['url']; ?>pg/blog/all??filter=hotposts&amp;callback=true'); return false;" href="?filter=hotposts"><?php echo elgg_echo('blog:hotposts'); ?></a></li>
+	<li <?php if($filter == "hotposts") echo "class='selected'"; ?>><a onclick="javascript:$('#blog_menu_box').load('<?php echo $vars['url']; ?>pg/blog/all?filter=hotposts&amp;callback=true'); return false;" href="?filter=hotposts"><?php echo elgg_echo('blog:hotposts'); ?></a></li>
 <?php
 	$featured = get_plugin_setting('featured','blog');
 	if ($featured != 'no'){ ?>
-	<li <?php if($filter == "featured") echo "class='selected'"; ?>><a onclick="javascript:$('#blog_menu_box').load('<?php echo $vars['url']; ?>pg/blog/all??filter=featured&amp;callback=true'); return false;" href="?filter=featured"><?php echo elgg_echo('blog:featured') . " (" . $featured_blogs . ")"; ?></a></li>
+	<li <?php if($filter == "featured") echo "class='selected'"; ?>><a onclick="javascript:$('#blog_menu_box').load('<?php echo $vars['url']; ?>pg/blog/all?filter=featured&amp;callback=true'); return false;" href="?filter=featured"><?php echo elgg_echo('blog:featured') . " (" . $featured_blogs . ")"; ?></a></li>
 
 <?php }}else{?>
-	<li <?php if($filter == "latestposts") echo "class='selected'"; ?>><a onclick="javascript:$('#blog_menu_box').load('<?php echo $vars['url']; ?>pg/blog/all??filter=latestposts&amp;callback=true'); return false;" href="?filter=latestposts"><?php echo elgg_echo('blog:latestposts'); ?></a></li>
+	<li <?php if($filter == "latestposts") echo "class='selected'"; ?>><a onclick="javascript:$('#blog_menu_box').load('<?php echo $vars['url']; ?>pg/blog/all?filter=latestposts&amp;callback=true'); return false;" href="?filter=latestposts"><?php echo elgg_echo('blog:latestposts'); ?></a></li>
 <?php $watch = get_plugin_setting('watch','blog');
 		if ($watch != 'no'){ ?>
 	<li <?php if($filter == "hotbloggers") echo "class='selected'"; ?>><a onclick="javascript:$('#blog_menu_box').load('<?php echo $vars['url']; ?>pg/blog/all?filter=hotbloggers&amp;callback=true'); return false;" href="?filter=hotbloggers"><?php echo elgg_echo('blog:hotbloggers'); ?></a></li>
@@ -75,12 +76,12 @@
 	// Get objects
 	$context = get_context();
 	
-	set_context('search');
+	set_context('blogcentral');
 	
 		switch($filter){
 			case 'default':
 			case "latestposts":
-			$objects = elgg_list_entities(array('type' => 'object', 'subtype' => 'blog', 'limit' => 10, 'offset' => $offset, 'full_view' => FALSE));
+			$objects = elgg_list_entities(array('type' => 'object', 'subtype' => 'blog', 'limit' => 10,  'full_view' => FALSE));
 			if (!$objects){
 			echo elgg_echo('blog:none');
 			}else{

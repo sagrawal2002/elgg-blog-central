@@ -37,12 +37,12 @@ if (isset($vars['nonefound'])) {
 if ($limit == 0) {
 	return true;
 }
-
+$context = get_context();
 $totalpages = ceil($count / $limit);
 $currentpage = ceil($offset / $limit) + 1;
 
 //only display if there is content to paginate through or if we already have an offset
-if (($count > $limit || $offset > 0) && get_context() != 'widget') {
+if (($count > $limit || $offset > 0) && (get_context() != 'widget')) {
 
 	?>
 
@@ -57,13 +57,20 @@ if (($count > $limit || $offset > 0) && get_context() != 'widget') {
 		}
 
 		$prevurl = elgg_http_add_url_query_elements($vars['baseurl'], array($word => $prevoffset));
-		if (get_context() == 'search'){
+		
+		
+		if ($context == 'blogcentral'){
 		echo "<a onclick=\"javascript:$('#blog_menu_box').load('{$prevurl}&amp;callback=true'); return false;\" href=\"{$prevurl}\" class=\"pagination_previous\">" . elgg_echo("previous") . " &raquo;</a> ";
 		}
 		else
 		{
-		echo "<a href=\"{$prevurl}\" class=\"pagination_previous\">&laquo; ". elgg_echo("previous") ."</a> ";
+		if ($context == 'blogsearch'){
+		echo "<a onclick=\"javascript:$('#blog_listing_box').load('{$prevurl}&amp;callback=true'); return false;\" href=\"{$prevurl}\" class=\"pagination_previous\">" . elgg_echo("previous") . " &raquo;</a> ";
 		}
+		else
+		{
+		echo "<a href=\"{$prevurl}\" class=\"pagination_previous\">&laquo; ". elgg_echo("previous") ."</a> ";
+		}}
 	}
 
 	if ($offset > 0 || $offset < ($count - $limit)) {
@@ -105,13 +112,20 @@ if (($count > $limit || $offset > 0) && get_context() != 'widget') {
 
 
 			if ($curoffset != $offset) {
-				if (get_context() == 'search'){
-				echo "<a onclick=\"javascript:$('#blog_menu_box').load('{$counturl}&amp;callback=true'); return false;\" href=\"{$counturl}\" class=\"pagination_number\">{$i}</a> ";
-				}
-				else
-				{
-				echo " <a href=\"{$counturl}\" class=\"pagination_number\">{$i}</a> ";
-				}
+
+	if ($context == 'blogcentral'){
+		echo "<a onclick=\"javascript:$('#blog_menu_box').load('{$counturl}&amp;callback=true'); return false;\" href=\"{$counturl}\" class=\"pagination_number\">{$i}</a> ";
+		}
+		else
+		{
+		if ($context == 'blogsearch'){
+		echo "<a onclick=\"javascript:$('#blog_listing_box').load('{$counturl}&amp;callback=true'); return false;\" href=\"{$counturl}\" class=\"pagination_number\">{$i}</a> ";
+		}
+		else
+		{
+		echo "<a href=\"{$counturl}\" class=\"pagination_number\">{$i}</a> ";
+		}}
+
 			} else {
 				echo "<span class=\"pagination_currentpage\">{$i}</span>";
 			}
@@ -128,13 +142,20 @@ if (($count > $limit || $offset > 0) && get_context() != 'widget') {
 		}
 
 		$nexturl = elgg_http_add_url_query_elements($vars['baseurl'], array($word => $nextoffset));
-		if (get_context() == 'search'){
+
+	if ($context == 'blogcentral'){
 		echo "<a onclick=\"javascript:$('#blog_menu_box').load('{$nexturl}&amp;callback=true'); return false;\" href=\"{$nexturl}\" class=\"pagination_next\">" . elgg_echo("next") . " &raquo;</a> ";
 		}
 		else
 		{
-		echo " <a href=\"{$nexturl}\" class=\"pagination_next\">" . elgg_echo("next") . " &raquo;</a>";
+		if ($context == 'blogsearch'){
+		echo "<a onclick=\"javascript:$('#blog_listing_box').load('{$nexturl}&amp;callback=true'); return false;\" href=\"{$nexturl}\" class=\"pagination_next\">" . elgg_echo("next") . " &raquo;</a> ";
 		}
+		else
+		{
+		echo "<a href=\"{$nexturl}\" class=\"pagination_next\">" . elgg_echo("next") . " &raquo;</a> ";
+		}}
+
 	}
 
 	?>
@@ -142,3 +163,4 @@ if (($count > $limit || $offset > 0) && get_context() != 'widget') {
 	</div>
 	<?php
 } // end of pagination check if statement
+?>
