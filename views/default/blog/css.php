@@ -217,7 +217,8 @@ margin: 17px 0;
 }
 
 .blog_access .input-access,
-.input-access {
+.input-access,
+.input_pulldown {
 	width: 100%;
 }
 .featured_blog_spot {
