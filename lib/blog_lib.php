@@ -125,11 +125,17 @@ function related_blogs($thisblog){
 	      echo '<table cellspacing="0" cellpadding="0" border="0">';
 	      foreach ($related_blogs as $related_blog)
 	      {
+		
+//		echo 'name = ' . $thisblog->title . '; guid = ' . $thisblog->guid . '; ';
+	
 		if ($grid_count == 0)
 		{
 		  echo '<tr>';
 		}
 		$thisblog = $related_blog['blog'];
+		if ($thisblog instanceof ElggObject)
+		{
+		
 		$owner = $thisblog->getOwnerEntity();
 		$friendlytime = elgg_view_friendly_time($thisblog->time_created);
 		echo '<td><div class="related_blogs" onclick="window.location.href=\''. $thisblog->getURL() . '\';">';
@@ -137,12 +143,15 @@ function related_blogs($thisblog){
 		echo $friendlytime . "<br>" . $owner->name;
 		echo "</div></td>";
 		$grid_count++;
+		}
 		if ($grid_count == $rows_per_line)
 		{
 		  echo '</tr>';
 		  $grid_count = 0;
 		}
 	    
+	      
+	      
 	      }
 	      echo '</table>';
 	      echo "</div>";

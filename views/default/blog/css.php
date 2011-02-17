@@ -68,6 +68,11 @@
 	margin:0;
 	padding:0;
 }
+
+.blog_post_body{
+margin: 17px 0;
+}
+
 .blog_post_body img[align="left"] {
 	margin: 10px 10px 10px 0;
 	float:left;

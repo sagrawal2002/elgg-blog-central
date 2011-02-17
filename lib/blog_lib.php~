@@ -83,7 +83,7 @@ function related_blogs($thisblog){
 	  $related = get_plugin_setting('related','blog');
 	  if ($related != 'no')
 	  { 
-	    $this_blogs_tags = $thisblog->tags);
+	    $this_blogs_tags = $thisblog->tags;
 	    if (is_array($this_blogs_tags)){
 	    $this_blogs_tags = array_unique($this_blogs_tags);
 	    }
@@ -125,17 +125,24 @@ function related_blogs($thisblog){
 	      echo '<table cellspacing="0" cellpadding="0" border="0">';
 	      foreach ($related_blogs as $related_blog)
 	      {
+		
+//		echo 'name = ' . $thisblog->title . '; guid = ' . $thisblog->guid . '; ';
+	
 		if ($grid_count == 0)
 		{
 		  echo '<tr>';
 		}
 		$thisblog = $related_blog['blog'];
+		if ($thisblog instanceof ElggObject)
+		{
+		
 		$owner = $thisblog->getOwnerEntity();
 		$friendlytime = elgg_view_friendly_time($thisblog->time_created);
 		echo '<td><div class="related_blogs" onclick="window.location.href=\''. $thisblog->getURL() . '\';">';
 		echo "<h4><a href='{$thisblog->getURL()}'>" . $thisblog->title . "</a></h4>";
 		echo $friendlytime . "<br>" . $owner->name;
 		echo "</div></td>";
+		}
 		$grid_count++;
 		if ($grid_count == $rows_per_line)
 		{
@@ -143,9 +150,10 @@ function related_blogs($thisblog){
 		  $grid_count = 0;
 		}
 	    
-	      }
+	      
 	      echo '</table>';
 	      echo "</div>";
+	      }
 	    }
 	  } // end - if related blogs view is active 
 }
