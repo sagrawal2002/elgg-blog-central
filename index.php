@@ -50,8 +50,18 @@
 
 		if (empty($callback)) {	
 		$context = get_context();
+		
+		if ($page_owner instanceof ElggGroup)
+		  {
+		    $search_param = 'container_guid';
+		  }
+		else
+		{
+		    $search_param = 'owner_guid';
+		}		
+		
 		set_context('search');
-		$blog_objects .= elgg_list_entities(array('type' => 'object', 'subtype' => 'blog', 'container_guid' => page_owner(), 'limit' => 10, 'offset' => $offset, 'full_view' => FALSE, 'view_type_toggle' => FALSE));
+		$blog_objects .= elgg_list_entities(array('type' => 'object', 'subtype' => 'blog', $search_param => page_owner(), 'limit' => 10, 'offset' => $offset, 'full_view' => FALSE, 'view_type_toggle' => FALSE));
 		set_context($context);
 		if ($blog_objects) {
 		$area2 .= $blog_objects;
