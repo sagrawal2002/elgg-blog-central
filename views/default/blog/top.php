@@ -45,14 +45,13 @@ jQuery(document).ready(function() {
 <?php
 $feature = get_plugin_setting('feature','blog');
 if ($feature != 'no'){
+$featured_blogs = elgg_get_entities_from_metadata(array('metadata_name' => 'featured_blog','metadata_value' => 'yes','types' => 'object','offset' => 0,'limit' => 5));
+if ($featured_blogs){
 ?>
 <div class="blog_top_holder">
 	<div class="dashbox3">
 		<div class="dashbox_title_space"><h3><img src="<?php echo $vars['url'];?>mod/blog/graphics/star.png"><?php echo elgg_echo('blog:featured'); ?></h3></div>
 		<div class="dashbox_content">
-			<?php
-			$featured_blogs = elgg_get_entities_from_metadata(array('metadata_name' => 'featured_blog','metadata_value' => 'yes','types' => 'object','offset' => 0,'limit' => 5));
-			?>
 			<ul id="mycarousel" class="jcarousel-skin-tango2">
 			<?php
 				if($featured_blogs)
@@ -82,5 +81,5 @@ if ($feature != 'no'){
 	</div>
 	
 </div>
-<?php } ?>
+<?php }} ?>
 <div class="clearfloat"></div>
