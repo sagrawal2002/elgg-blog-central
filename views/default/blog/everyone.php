@@ -128,5 +128,6 @@
 			}
 			break;	
 		}
+	set_context('blog');
 ?>
 </div>

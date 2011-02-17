@@ -153,7 +153,7 @@
 					break;
 				case "owner":
 					set_input('username', $page[1]);	
-					set_context('search');
+					//set_context('search');
 					include(dirname(__FILE__) . "/index.php");
 					break;
 				case "friends":

@@ -22,6 +22,7 @@
 	margin:3px 0 0 0;
 	padding:0;
 }
+
 .blog_post h3 {
 	font-size: 150%;
 	margin:0 0 10px -3px;
@@ -510,6 +511,7 @@ padding-right: 3px;
 
 .blog_index_listing {
 padding: 10px 10px;
+border-bottom: 1px solid #E8E8E8;
 }
 
 .blog_index_listing h3 {
