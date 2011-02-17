@@ -518,6 +518,10 @@ border-bottom: 1px solid #E8E8E8;
 padding-bottom: 7px;
 }
 
+#blog_menu_list {
+margin: 10px 0;
+}
+
 .listing_icon {
 float: left;
  margin-right:5px;"
