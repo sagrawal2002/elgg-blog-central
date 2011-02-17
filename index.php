@@ -56,7 +56,7 @@
 		}
 		else
 		{			
-		$area2 .= elgg_echo ('blog:noblogs');
+		$area2 .= elgg_echo ('blog:none');
 		}
 	// Get blog tags
 

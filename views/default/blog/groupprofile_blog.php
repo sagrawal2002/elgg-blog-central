@@ -11,7 +11,7 @@ if ($vars['entity']->blog_enable != 'no') {
 <h2><?php echo elgg_echo('blog:group'); ?></h2>
 <?php
 	$context = get_context();
-	set_context('search');
+	set_context('widget');
 	$content = elgg_list_entities(array('types' => 'object',
 										'subtypes' => 'blog',
 										'container_guid' => $vars['entity']->guid,

@@ -135,10 +135,10 @@ blog_view_count($vars['entity'], $page_owner);
 	  {
 	    //get the number of comments
 	    $num_comments = elgg_count_comments($vars['entity']);
-	?>
-	<a href="#comment"><?php echo sprintf(elgg_echo("comments")) . " (" . $num_comments . ")"; ?></a>
-<?php		
-							}
+	    if ($num_comments > 0)
+	    echo '<a href="#top_comment">' . sprintf(elgg_echo("comments")) . ' (' . $num_comments . ')</a>';
+		
+	  }
 	  //If Featuring is turned on
 	  $feature = get_plugin_setting('feature','blog');
 	  if ($feature != 'no')

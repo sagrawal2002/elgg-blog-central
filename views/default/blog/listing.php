@@ -62,7 +62,8 @@
 		if($vars['entity'] instanceof ElggObject){
 			        //get the number of comments
 		$num_comments = elgg_count_comments($vars['entity']);
-		$comments = "<a href='{$vars['entity']->getURL()}'>" . sprintf(elgg_echo('comments')) . " (" . $num_comments . ") </a>" . $follow_link;
+		if ($num_comments > 0)
+		$comments = "<a href='{$vars['entity']->getURL()}/#top_comment'>" . sprintf(elgg_echo('comments')) . " (" . $num_comments . ")</a> " . $follow_link;
 		}
 		$edit = "<a href='{$vars['url']}mod/blog/edit.php?blogpost={$vars['entity']->getGUID()}'>" . elgg_echo('edit') . "</a>";
 		$delete = elgg_view("output/confirmlink", array('href' => $vars['url'] . "action/blog/delete?blogpost=" . $vars['entity']->getGUID(),'text' => elgg_echo('delete'),'confirm' => elgg_echo('deleteconfirm'),));
@@ -75,13 +76,19 @@
 			 		$featured_star = "<img src='$star'>";
 			        $featured = "$featured_star";
 			
-		
+		      if (get_context() == 'widget')
+      {
+	echo '<div class="search_listing">';
+      }
 		
 		if ($_SESSION['user']->admin){
 
 		  $info = "<div class='blog_index_listing'>";
 		  $info .= "<h3><a href='{$vars['entity']->getURL()}'>{$vars['entity']->title}</a></h3>";
-    	  $info .= "<div class='listing_content_left'><span style='float:left;margin-right:4px;'>" . $icon . "</span><p class=\"strapline\">" . $created_by . "</p><p class=\"strapline\">" .  $friendlytime . " | " . elgg_echo('blog:stats:blogview') . "(" . $current_count . ")" . " | " . $comments  . "</p>";    	      	  
+    	  $info .= "<div class='listing_content_left'><span style='float:left;margin-right:4px;'>" . $icon . "</span><p class=\"strapline\">" . $created_by . "</p><p class=\"strapline\">" .  $friendlytime . " | " . elgg_echo('blog:stats:blogview') . "(" . $current_count . ")"; 
+	  if ($num_comments > 0)
+	   $info .= " | " . $comments;
+	   $info .= "</p>";    	      	  
     	  if ($tags){
 	  $info .= '<p class="tags">' . $tags . '</p>';
 	  }
@@ -104,7 +111,10 @@
 		  
 		  $info = "<div class='blog_index_listing'>";
 		  $info .= "<h3><a href='{$vars['entity']->getURL()}'>{$vars['entity']->title}</a></h3>";
-    	  $info .= "<div class='listing_content_left'><span style='float:left;margin-right:4px;'>" . $icon . "</span><p class=\"strapline\">" . $created_by . "</p><p class=\"strapline\">" .  $friendlytime . " | " . elgg_echo('blog:stats:blogview') . "(" . $current_count . ")" . " | " . $comments  . "</p>";    	      	  
+    	  $info .= "<div class='listing_content_left'><span style='float:left;margin-right:4px;'>" . $icon . "</span><p class=\"strapline\">" . $created_by . "</p><p class=\"strapline\">" .  $friendlytime . " | " . elgg_echo('blog:stats:blogview') . "(" . $current_count . ")";
+	  if ($num_comments > 0)
+	   $info .= " | " . $comments;
+	   $info .= "</p>";    	      	  
 	  if ($tags){
 	    $info .= '<p class="tags">' . $tags . '</p>';}
     	  if($vars['entity']->featured_blog == "yes"){
@@ -123,5 +133,8 @@
 			
 
 		}
-		
+      if (get_context() == 'widget')
+      {
+	echo '</div>';
+      }
 ?>	

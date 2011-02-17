@@ -234,7 +234,8 @@
 			)
 			{
 				// Display comments
-				return elgg_view_comments($entity);
+				$comment_list = '<a href="#" name="top_comment">&nbsp;</a>';
+				return $comment_list . elgg_view_comments($entity);
 			}
 			
 		}

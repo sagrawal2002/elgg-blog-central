@@ -17,10 +17,6 @@
 	padding-bottom:10px;
 }
 
-.singleview {
-	margin-top:10px;
-}
-
 .blog_post_icon {
 	float:left;
 	margin:3px 0 0 0;
@@ -37,10 +33,9 @@
 }
 
 .singleview {
-	margin: 0 0 3px 5px;
-	padding: 0 8px 8px 8px;
+	margin: 0 0 0 5px;
+	padding: 0 8px 0 8px;
 	background: none;
-	border-bottom: 1px solid #000000;
 	-webkit-border-radius: 2px;
 	-moz-border-radius: 2px; 
 }
