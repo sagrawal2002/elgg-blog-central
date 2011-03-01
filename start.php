@@ -74,7 +74,7 @@
 
 			//add submenu options
 				$context = get_context();
-				if ($context == "blog" || $context == "search" || $context== "blogcentral") {
+				if ($context == "blog" || $context== "blogcentral") {
 					$page_owner = page_owner_entity();
 
 					add_submenu_item(elgg_echo('blog:everyone'),$CONFIG->wwwroot."pg/blog/all/");

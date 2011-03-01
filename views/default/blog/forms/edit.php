@@ -108,14 +108,14 @@ $extras = elgg_view('categories',$vars);
 		<div class="blog_edit" id="blog_edit_top_middle">
 			<div id="content_area_user_title"><h3><?php echo elgg_echo('Conversation'); ?></h3></div>
 			<p><label>
-					<input type="checkbox" name="comments_select"  {$comments_on_switch} /> 
+					<input type="checkbox" name="comments_select" <?php  echo $comments_on_switch; ?> /> 
 				</label>	
 			<?php echo elgg_echo('blog:comments:allow'); ?>
 			</p><br>
 			
 			<?php echo elgg_view('groups/groupselector'); ?>
 		</div>
-		
+		<!--
 		<div  class="blog_edit" id="blog_edit_top_middle2">
 			<div id="content_area_user_title"><h3><?php echo elgg_echo('Images'); ?></h3></div>
 			
@@ -123,7 +123,7 @@ $extras = elgg_view('categories',$vars);
 		
 		<div class="blog_edit" id="blog_edit_top_right">
 			<div id="content_area_user_title"><h3><?php echo elgg_echo('Extras'); ?></h3></div>
-		</div>
+		</div> -->
 		<div id="clearfloat">&nbsp;</div>
 	</div>
 

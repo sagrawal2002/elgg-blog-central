@@ -173,7 +173,7 @@
 		   'blog:settings:group_contents:activate' => "<strong>Allow Post Assigning</strong>",
 		   'blog:settings:group_contents:help' => "<em>This will allow users to assign a post to one of their groups</em>",
 		   'blog:settings:iconoverwrite:activate' => "<strong>Allow Icon Overwriting</strong>",
-		   'blog:settings:iconoverwrite:help' => "<em>This will overwrite the icons of posts assigned to groups with the group icon</em>",
+		   'blog:settings:iconoverwrite:help' => "<em>This will overwrite the icons of posts assigned to groups with the group icon</em>"
 		   
 	);
 					
